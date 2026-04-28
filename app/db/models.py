@@ -7,7 +7,6 @@ from sqlalchemy.sql import func
 from app.db.database import Base
 
 
-# Many-to-many: roles <-> permissions
 role_permissions = Table(
     "role_permissions",
     Base.metadata,
@@ -15,7 +14,6 @@ role_permissions = Table(
     Column("permission_id", Integer, ForeignKey("permissions.id"), primary_key=True),
 )
 
-# Many-to-many: users <-> roles
 user_roles = Table(
     "user_roles",
     Base.metadata,
@@ -23,7 +21,6 @@ user_roles = Table(
     Column("role_id", Integer, ForeignKey("roles.id"), primary_key=True),
 )
 
-# Many-to-many: roles <-> resources (what roles can access which resources)
 role_resources = Table(
     "role_resources",
     Base.metadata,

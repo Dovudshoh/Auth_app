@@ -14,7 +14,6 @@ def register_user(data: UserRegister, db: Session) -> models.User:
             detail="Email already registered",
         )
 
-    # Assign default "user" role
     default_role = db.query(models.Role).filter(models.Role.name == "user").first()
 
     user = models.User(
@@ -53,7 +52,6 @@ def login_user(data: UserLogin, db: Session) -> Token:
 def update_user(user: models.User, updates: dict, db: Session) -> models.User:
     for field, value in updates.items():
         if value is not None:
-            # Check email uniqueness if email is being changed
             if field == "email" and value != user.email:
                 existing = db.query(models.User).filter(models.User.email == value).first()
                 if existing:
@@ -69,6 +67,5 @@ def update_user(user: models.User, updates: dict, db: Session) -> models.User:
 
 
 def soft_delete_user(user: models.User, db: Session) -> None:
-    """Soft delete: mark as inactive, keep record in DB."""
     user.is_active = False
     db.commit()

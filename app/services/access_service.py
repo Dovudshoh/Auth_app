@@ -5,7 +5,6 @@ from app.db import models
 
 
 def get_user_permissions(user: models.User) -> set[str]:
-    """Return set of permission names the user has via their roles."""
     permissions = set()
     for role in user.roles:
         for perm in role.permissions:
@@ -14,7 +13,6 @@ def get_user_permissions(user: models.User) -> set[str]:
 
 
 def get_user_resources(user: models.User) -> set[str]:
-    """Return set of resource names accessible to the user via their roles."""
     resources = set()
     for role in user.roles:
         for resource in role.resources:
@@ -23,10 +21,6 @@ def get_user_resources(user: models.User) -> set[str]:
 
 
 def check_resource_access(user: models.User, resource_name: str, db: Session):
-    """
-    Verify the user has access to the given resource.
-    Raises 403 if access is denied.
-    """
     accessible = get_user_resources(user)
     if resource_name not in accessible:
         raise HTTPException(
@@ -36,10 +30,6 @@ def check_resource_access(user: models.User, resource_name: str, db: Session):
 
 
 def require_permission(user: models.User, permission: str):
-    """
-    Verify the user has a specific permission.
-    Raises 403 if not.
-    """
     permissions = get_user_permissions(user)
     if permission not in permissions:
         raise HTTPException(

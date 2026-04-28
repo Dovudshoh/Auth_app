@@ -12,7 +12,6 @@ def seed():
     db = SessionLocal()
 
     try:
-        # --- Permissions ---
         if not db.query(models.Permission).first():
             perms = [
                 models.Permission(name="read", description="Read access"),
@@ -26,7 +25,6 @@ def seed():
         perm_write = db.query(models.Permission).filter_by(name="write").first()
         perm_delete = db.query(models.Permission).filter_by(name="delete").first()
 
-        # --- Resources ---
         if not db.query(models.Resource).first():
             resources = [
                 models.Resource(name="documents", description="Company documents"),
@@ -40,7 +38,6 @@ def seed():
         res_reports = db.query(models.Resource).filter_by(name="reports").first()
         res_admin = db.query(models.Resource).filter_by(name="admin_panel").first()
 
-        # --- Roles ---
         if not db.query(models.Role).first():
             role_user = models.Role(name="user", description="Regular user")
             role_user.permissions = [perm_read]
@@ -61,7 +58,6 @@ def seed():
         role_moderator = db.query(models.Role).filter_by(name="moderator").first()
         role_admin = db.query(models.Role).filter_by(name="admin").first()
 
-        # --- Users ---
         if not db.query(models.User).first():
             admin = models.User(
                 first_name="Иван",
